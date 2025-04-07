@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1032919032737",
+    "project_id": "snp-management",
+    "storage_bucket": "snp-management.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032919032737:android:0f39b9976ca5e0e895a1e0",
+        "android_client_info": {
+          "package_name": "com.example.flutter_login_template"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmMI9SrWjpk9LbnOqj44kzaauZakWTlVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
