@@ -9,6 +9,9 @@
 - 계정 삭제 (30일 보관 정책 적용)
 
 ## 버전 히스토리
+- **v0.0.1**
+  - 농가 관리 페이지 추가 (아직 에러 있음)
+
 - **v0.0.0**
   - 프로젝트 초기 시작 
   - 파이어베이스 변경해야함 
@@ -57,3 +60,87 @@
 1. Flutter 환경 설정  
    ```bash
    flutter pub get
+    ```
+
+
+lib/
+  ├── main.dart                   // 기존 파일
+  ├── config/                     // 기존 폴더
+  │   ├── constants.dart
+  │   ├── theme.dart
+  ├── controllers/                // 기존 폴더
+  │   ├── auth_controller.dart
+  │   ├── user_controller.dart
+  │   ├── farm_controller.dart    // 새로 추가
+  │   ├── field_controller.dart   // 새로 추가
+  │   ├── worker_controller.dart  // 새로 추가
+  │   ├── schedule_controller.dart// 새로 추가
+  │   └── contract_controller.dart// 새로 추가
+  ├── models/                     // 기존 폴더 + 신규 모델
+  │   ├── user_model.dart
+  │   ├── farm_model.dart        // 새로 추가
+  │   ├── field_model.dart       // 새로 추가
+  │   ├── worker_model.dart      // 새로 추가
+  │   ├── schedule_model.dart    // 새로 추가
+  │   └── contract_model.dart    // 새로 추가
+  ├── services/                   // 기존 폴더 + 신규 서비스
+  │   ├── auth_service.dart
+  │   ├── firestore_service.dart
+  │   ├── farm_service.dart      // 새로 추가
+  │   ├── field_service.dart     // 새로 추가
+  │   ├── worker_service.dart    // 새로 추가
+  │   ├── schedule_service.dart  // 새로 추가
+  │   └── contract_service.dart  // 새로 추가
+  ├── screens/                    // 기존 폴더 + 신규 화면
+  │   ├── auth/
+  │   ├── splash/
+  │   ├── home/
+  │   ├── profile/
+  │   ├── farm/                  // 새로 추가
+  │   │   ├── farm_list_screen.dart
+  │   │   ├── farm_add_screen.dart
+  │   │   ├── farm_detail_screen.dart
+  │   │   └── farm_edit_screen.dart
+  │   ├── field/                 // 새로 추가
+  │   │   ├── field_list_screen.dart
+  │   │   ├── field_add_screen.dart
+  │   │   ├── field_detail_screen.dart
+  │   │   └── field_edit_screen.dart
+  │   ├── worker/                // 새로 추가
+  │   │   ├── worker_list_screen.dart
+  │   │   ├── worker_add_screen.dart
+  │   │   ├── worker_detail_screen.dart
+  │   │   └── worker_edit_screen.dart
+  │   ├── schedule/              // 새로 추가
+  │   │   ├── schedule_list_screen.dart
+  │   │   ├── schedule_calendar_screen.dart
+  │   │   └── schedule_add_screen.dart
+  │   └── contract/              // 새로 추가
+  │       ├── contract_list_screen.dart
+  │       ├── contract_add_screen.dart
+  │       └── contract_detail_screen.dart
+  ├── widgets/                    // 기존 폴더 + 신규 위젯
+  │   ├── custom_button.dart
+  │   ├── custom_text_field.dart
+  │   ├── bottom_nav_bar.dart
+  │   ├── farm/                  // 새로 추가
+  │   │   ├── farm_card.dart
+  │   │   ├── farm_filter.dart
+  │   │   └── farm_search_bar.dart
+  │   ├── field/                 // 새로 추가
+  │   │   ├── field_card.dart
+  │   │   └── field_map.dart
+  │   ├── worker/                // 새로 추가
+  │   │   ├── worker_card.dart
+  │   │   └── worker_filter.dart
+  │   ├── schedule/              // 새로 추가
+  │   │   ├── schedule_card.dart
+  │   │   └── calendar_widget.dart
+  │   └── contract/              // 새로 추가
+  │       ├── contract_card.dart
+  │       └── payment_timeline.dart
+  └── utils/                      // 기존 폴더 + 신규 유틸리티
+      ├── custom_loading.dart
+      ├── validators.dart        // 새로 추가
+      ├── formatters.dart        // 새로 추가
+      └── map_utils.dart         // 새로 추가

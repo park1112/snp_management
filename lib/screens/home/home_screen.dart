@@ -5,6 +5,7 @@ import '../../controllers/auth_controller.dart';
 import '../../models/user_model.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../profile/profile_screen.dart';
+import '../farm/farm_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // lib/screens/home/home_screen.dart
+  // 홈 페이지 구현
   Widget _buildHomePage() {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -108,18 +109,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(width: 30),
                           Expanded(
                             flex: 6,
-                            child: _buildFeatureSection(),
+                            child: _buildFarmManagementSection(),
                           ),
                         ],
                       )
                     else
-                      // 모바일 레이아웃 - 카드와 피쳐 섹션을 세로로 배치
+                      // 모바일 레이아웃 - 카드와 섹션을 세로로 배치
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildWelcomeCard(isSmallScreen),
                           const SizedBox(height: 30),
-                          _buildFeatureSection(),
+                          _buildFarmManagementSection(),
                         ],
                       ),
                   ],
@@ -228,12 +229,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget _buildFeatureSection() {
+  // 농가 관리 섹션 (새로 추가)
+  Widget _buildFarmManagementSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          '앱 기능',
+          '농가 및 작업 관리',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -241,79 +243,150 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(height: 15),
-        _buildFeatureCard(
-          Icons.login,
-          '다중 로그인',
-          '네이버, 페이스북, 전화번호를 통한 간편 로그인을 지원합니다.',
+
+        // 농가 관리 카드
+        _buildManagementCard(
+          icon: Icons.agriculture,
+          title: '농가 관리',
+          description: '농가 정보를 등록하고 관리합니다.',
+          color: Colors.green.shade600,
+          onTap: () {
+            Get.to(() => const FarmListScreen());
+          },
         ),
-        _buildFeatureCard(
-          Icons.person,
-          '프로필 관리',
-          '사용자 정보를 쉽게 관리하고 업데이트할 수 있습니다.',
+
+        // 농지 관리 카드
+        _buildManagementCard(
+          icon: Icons.terrain,
+          title: '농지 관리',
+          description: '각 농가의 농지 정보를 등록하고 관리합니다.',
+          color: Colors.brown.shade600,
+          onTap: () {
+            // TODO: 농지 목록 화면으로 이동
+            Get.snackbar(
+              '준비 중',
+              '농지 관리 기능은 다음 업데이트에서 제공됩니다.',
+              snackPosition: SnackPosition.BOTTOM,
+            );
+          },
         ),
-        _buildFeatureCard(
-          Icons.security,
-          '안전한 인증',
-          '사용자 정보는 안전하게 보호되며, 자동 로그인을 지원합니다.',
+
+        // 작업자 관리 카드
+        _buildManagementCard(
+          icon: Icons.people,
+          title: '작업자 관리',
+          description: '작업반장 및 운송기사 정보를 관리합니다.',
+          color: Colors.blue.shade600,
+          onTap: () {
+            // TODO: 작업자 목록 화면으로 이동
+            Get.snackbar(
+              '준비 중',
+              '작업자 관리 기능은 다음 업데이트에서 제공됩니다.',
+              snackPosition: SnackPosition.BOTTOM,
+            );
+          },
         ),
-        _buildFeatureCard(
-          Icons.dashboard_customize,
-          '재사용 가능한 템플릿',
-          '모든 앱에 쉽게 통합할 수 있는 로그인 템플릿입니다.',
+
+        // 작업 일정 관리 카드
+        _buildManagementCard(
+          icon: Icons.calendar_today,
+          title: '작업 일정',
+          description: '작업 일정을 등록하고 관리합니다.',
+          color: Colors.orange.shade600,
+          onTap: () {
+            // TODO: 작업 일정 화면으로 이동
+            Get.snackbar(
+              '준비 중',
+              '작업 일정 기능은 다음 업데이트에서 제공됩니다.',
+              snackPosition: SnackPosition.BOTTOM,
+            );
+          },
+        ),
+
+        // 계약 관리 카드
+        _buildManagementCard(
+          icon: Icons.description,
+          title: '계약 관리',
+          description: '농가와의 계약 정보를 관리합니다.',
+          color: Colors.purple.shade600,
+          onTap: () {
+            // TODO: 계약 목록 화면으로 이동
+            Get.snackbar(
+              '준비 중',
+              '계약 관리 기능은 다음 업데이트에서 제공됩니다.',
+              snackPosition: SnackPosition.BOTTOM,
+            );
+          },
         ),
       ],
     );
   }
 
-  Widget _buildFeatureCard(IconData icon, String title, String description) {
+  // 관리 카드 위젯
+  Widget _buildManagementCard({
+    required IconData icon,
+    required String title,
+    required String description,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 28,
+                ),
               ),
-              child: Icon(
-                icon,
-                color: AppTheme.primaryColor,
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimaryColor,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textPrimaryColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppTheme.textSecondaryColor,
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppTheme.textSecondaryColor,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey.shade400,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -3,16 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'firebase_options.dart'; // 새로 만든 옵션 파일 import
+import 'firebase_options.dart';
 
 import 'config/constants.dart';
 import 'config/theme.dart';
 import 'controllers/auth_controller.dart';
+import 'controllers/farm_controller.dart';
 import 'screens/splash/splash_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home/home_screen.dart';
+import 'screens/farm/farm_list_screen.dart';
+import 'screens/farm/farm_add_screen.dart';
+import 'screens/farm/farm_detail_screen.dart';
+import 'screens/farm/farm_edit_screen.dart';
 
-// lib/main.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -32,13 +36,22 @@ void main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
-  // Firebase 초기화
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // Firebase 앱이 아직 초기화되지 않았다면 초기화
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    if (e.toString().contains('duplicate-app')) {
+      debugPrint('Firebase app already initialized');
+    } else {
+      rethrow;
+    }
+  }
 
   // GetX 컨트롤러 초기화
   Get.put(AuthController());
+  Get.put(FarmController());
 
   runApp(const MyApp());
 }
@@ -49,7 +62,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: '다중 로그인 템플릿',
+      title: '농가 및 작업 관리',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
@@ -62,6 +75,27 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const SplashWrapper()),
+        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        // 농가 관련 라우트
+        GetPage(name: '/farm/list', page: () => const FarmListScreen()),
+        GetPage(name: '/farm/add', page: () => const FarmAddScreen()),
+        GetPage(
+          name: '/farm/detail/:id',
+          page: () => FarmDetailScreen(
+            farmId: Get.parameters['id'] ?? '',
+          ),
+        ),
+        GetPage(
+          name: '/farm/edit/:id',
+          page: () => FarmEditScreen(
+            farmId: Get.parameters['id'] ?? '',
+          ),
+        ),
+      ],
       home: const SplashWrapper(),
     );
   }

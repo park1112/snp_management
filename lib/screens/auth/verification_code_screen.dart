@@ -338,14 +338,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
     if (!mounted) return;
 
     final String code = _verificationCode;
-
     if (code.length != 6) {
       setState(() {
         _errorMessage = '6자리 인증코드를 입력해주세요';
       });
       return;
     }
-
     if (!_isTimerRunning) {
       setState(() {
         _errorMessage = '인증 시간이 만료되었습니다. 재요청을 해주세요.';
@@ -353,21 +351,16 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
       return;
     }
 
+    // 인증 시작 전에 로딩 상태 전환
+    _authController.isLoading.value = true;
+
     try {
-      // 로딩 상태 표시
-      setState(() {
-        // 로딩 표시 로직
-      });
-
-      // 인증 시도
       await _authController.verifyPhoneCode(code);
-
-      // mounted 체크
       if (!mounted) return;
-
       _stopTimer();
-
-      // 안전한 방식으로 상태 업데이트 및 화면 전환
+      // 로딩 상태 해제
+      _authController.isLoading.value = false;
+      // 인증 성공 메시지 및 후속 처리
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           Get.snackbar(
@@ -380,12 +373,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
         }
       });
     } catch (e) {
-      // mounted 체크
       if (!mounted) return;
-
       setState(() {
         _errorMessage = '유효하지 않은 인증코드입니다. 다시 확인해주세요.';
       });
+      // 인증 실패 시 로딩 상태 해제
+      _authController.isLoading.value = false;
     }
   }
 }
