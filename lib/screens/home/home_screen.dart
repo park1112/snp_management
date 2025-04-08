@@ -6,6 +6,7 @@ import '../../models/user_model.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../profile/profile_screen.dart';
 import '../farm/farm_list_screen.dart';
+import '../field/field_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -229,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  // 농가 관리 섹션 (새로 추가)
+  // 농가 관리 섹션
   Widget _buildFarmManagementSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,12 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
           description: '각 농가의 농지 정보를 등록하고 관리합니다.',
           color: Colors.brown.shade600,
           onTap: () {
-            // TODO: 농지 목록 화면으로 이동
-            Get.snackbar(
-              '준비 중',
-              '농지 관리 기능은 다음 업데이트에서 제공됩니다.',
-              snackPosition: SnackPosition.BOTTOM,
-            );
+            Get.to(() => const FieldListScreen());
           },
         ),
 

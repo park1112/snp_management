@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_login_template/controllers/field_controller.dart';
+import 'package:flutter_login_template/screens/field/field_add_screen.dart';
+import 'package:flutter_login_template/screens/field/field_detail_screen.dart';
+import 'package:flutter_login_template/screens/field/field_edit_screen.dart';
+import 'package:flutter_login_template/screens/field/field_list_screen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -52,6 +57,7 @@ void main() async {
   // GetX 컨트롤러 초기화
   Get.put(AuthController());
   Get.put(FarmController());
+  Get.put(FieldController());
 
   runApp(const MyApp());
 }
@@ -80,6 +86,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => const SplashWrapper()),
         GetPage(name: '/login', page: () => const LoginScreen()),
         GetPage(name: '/home', page: () => const HomeScreen()),
+
         // 농가 관련 라우트
         GetPage(name: '/farm/list', page: () => const FarmListScreen()),
         GetPage(name: '/farm/add', page: () => const FarmAddScreen()),
@@ -93,6 +100,37 @@ class MyApp extends StatelessWidget {
           name: '/farm/edit/:id',
           page: () => FarmEditScreen(
             farmId: Get.parameters['id'] ?? '',
+          ),
+        ),
+
+        // 농지 관련 라우트
+        GetPage(name: '/field/list', page: () => const FieldListScreen()),
+        GetPage(
+          name: '/field/list/farm/:id',
+          page: () => FieldListScreen(
+            farmId: Get.parameters['id'] ?? '',
+          ),
+        ),
+        GetPage(
+          name: '/field/add',
+          page: () => const FieldAddScreen(),
+        ),
+        GetPage(
+          name: '/field/add/farm/:id',
+          page: () => FieldAddScreen(
+            initialFarmId: Get.parameters['id'] ?? '',
+          ),
+        ),
+        GetPage(
+          name: '/field/detail/:id',
+          page: () => FieldDetailScreen(
+            fieldId: Get.parameters['id'] ?? '',
+          ),
+        ),
+        GetPage(
+          name: '/field/edit/:id',
+          page: () => FieldEditScreen(
+            fieldId: Get.parameters['id'] ?? '',
           ),
         ),
       ],

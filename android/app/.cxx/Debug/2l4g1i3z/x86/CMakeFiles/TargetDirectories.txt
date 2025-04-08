@@ -1,0 +1,2 @@
+/Users/hyunjaepark/snp_management/android/app/.cxx/Debug/2l4g1i3z/x86/CMakeFiles/edit_cache.dir
+/Users/hyunjaepark/snp_management/android/app/.cxx/Debug/2l4g1i3z/x86/CMakeFiles/rebuild_cache.dir
